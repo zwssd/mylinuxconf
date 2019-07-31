@@ -23,5 +23,7 @@ zypper install -t pattern devel_basis
 
 #openSUSE下的AOSP编译环境的搭建
 #https://blog.csdn.net/qq_26054291/article/details/83032432
-
-
+#自己动手编译Android源码(超详细)
+#https://blog.csdn.net/lyb2518/article/details/77072792
+#Android FrameWork 学习之Android 系统源码调试
+#https://www.cnblogs.com/liumce/p/8027559.html
