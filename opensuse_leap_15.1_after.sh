@@ -3,11 +3,10 @@
 # 禁用原有软件源
 zypper mr -da
 
-# 添加中科大镜像源
-zypper ar -fc https://mirrors.ustc.edu.cn/opensuse/distribution/leap/15.1/repo/oss USTC:15.1:OSS
-zypper ar -fc https://mirrors.ustc.edu.cn/opensuse/distribution/leap/15.1/repo/non-oss USTC:15.1:NON-OSS
-zypper ar -fc https://mirrors.ustc.edu.cn/opensuse/update/leap/15.1/oss USTC:15.1:UPDATE-OSS
-zypper ar -fc https://mirrors.ustc.edu.cn/opensuse/update/leap/15.1/non-oss USTC:15.1:UPDATE-NON-OSS
+zypper addrepo -f http://mirrors.aliyun.com/opensuse/distribution/leap/15.1/repo/oss/ Aliyun-openSUSE-15.1-Oss 
+zypper addrepo -f http://mirrors.aliyun.com/opensuse/distribution/leap/15.1/repo/non-oss/ Aliyun-openSUSE-15.1-Non-Oss 
+zypper addrepo -f http://mirrors.aliyun.com/opensuse/update/leap/15.1/oss/ Aliyun-openSUSE-15.1-Update-Oss 
+zypper addrepo -f http://mirrors.aliyun.com/opensuse/update/leap/15.1/non-oss/ Aliyun-openSUSE-15.1-Update-Non-Oss
 
 # 手动刷新软件源
 zypper ref
