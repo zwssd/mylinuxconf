@@ -17,7 +17,7 @@ zypper ar -f -n packmanhttp://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_L
 
 zypper update
 
-zypper install vlc vlc-codecs wqy-microhei-fonts git filezilla repo qbittorrent
+zypper install vlc vlc-codecs wqy-microhei-fonts git filezilla repo qbittorrent fcitx fcitx-table-cn-wubi-pinyin
 
 zypper install -t pattern devel_basis
 
