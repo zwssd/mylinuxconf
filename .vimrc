@@ -16,7 +16,7 @@ set number
 "开启语法高亮
 syntax on
 "检测文件类型
-filetype off
+filetype on
 "开启自动对齐和智能对齐
 set autoindent
 set smartindent
