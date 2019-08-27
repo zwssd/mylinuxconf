@@ -16,7 +16,7 @@ zypper ar -f -n packman http://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_
 
 zypper update
 
-zypper install vlc vlc-codecs wqy-microhei-fonts git filezilla
+zypper install vlc vlc-codecs wqy-microhei-fonts git filezilla gvim
 #zypper install -t pattern devel_basis
 
 #openSUSE下的AOSP编译环境的搭建
