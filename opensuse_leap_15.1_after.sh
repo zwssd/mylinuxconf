@@ -12,7 +12,7 @@ zypper addrepo -f http://mirrors.aliyun.com/opensuse/update/leap/15.1/non-oss/ A
 zypper ref
 
 # 添加packman
-zypper ar -f -n packmanhttp://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Leap_15.1/ packman
+zypper ar -f -n packman http://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Leap_15.1/ packman
 
 zypper update
 
