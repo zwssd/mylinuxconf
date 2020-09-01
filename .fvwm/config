@@ -256,6 +256,7 @@ Style jetbrains-idea-ce MiniIcon apps/idea.svg:$[i_size], Icon apps/idea.svg:$[i
 Style jetbrains-clion MiniIcon apps/clion.svg:$[i_size], Icon apps/clion.svg:$[i_size]
 Style netbeans MiniIcon apps/netbeans.svg:$[i_size], Icon apps/netbeans.svg:$[i_size]
 Style gvim MiniIcon apps/gvim.svg:$[i_size], Icon apps/gvim.svg:$[i_size]
+Style code* MiniIcon apps/code.svg:$[i_size], Icon apps/code.svg:$[i_size]
 Style Gimp MiniIcon apps/gimp.svg:$[i_size], Icon apps/gimp.svg:$[i_size]
 Style inkscape MiniIcon apps/inkscape.svg:$[i_size], Icon apps/inkscape.svg:$[i_size]
 Style *lender MiniIcon apps/blender.svg:$[i_size], Icon apps/blender.svg:$[i_size]
