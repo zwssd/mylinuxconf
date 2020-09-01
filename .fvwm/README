@@ -1,0 +1,34 @@
+##----------
+## MacFvwm
+##--------------------------------
+
+Config for:  FVWM 2.5.26
+Fvwm config adapted to resolution 1920x1080.
+
+##----------------
+## Requirements:
+##---------------------------------
+- urxvt 	
+- habak 	
+- scrot 	
+- trayer 	
+- mpd + mpc 
+
+extra:
+
+- conky 	
+- ncmpc 	
+- rox-filer	
+- vim/gvim
+
+##---------------
+## Instalation:
+##----------------------------------
+
+Copy ".fvwm" into your home directory, and restart Fvwm
+
+##---------
+## Thanks to:
+##----------------------------------
+	http://arsen.gentoo.pl/
+	http://repo.dobremiasto.net/
