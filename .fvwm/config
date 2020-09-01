@@ -1,89 +1,822 @@
-###################################################################
-##---------------------------------------------------------------##
-### Ustawienia PATH dla pixmap 					###
-##---------------------------------------------------------------##
-###################################################################
+#----------------------------------------------------------------
+#   __                           
+#  / _|_   ____      ___ __ ___  
+# | |_\ \ / /\ \ /\ / / '_ ` _ \ 
+# |  _|\ V /  \ V  V /| | | | | |
+# |_|   \_/    \_/\_/ |_| |_| |_| 2.6.5
+#                               
+#                                                               
+# system monitor                                                
+# conky     http://conky.sourceforge.net/
+#
+# for screenshots (mostly)                                      
+# imagemagick   http://www.imagemagick.org/script/index.php
+#
+# High color version
+#
+# June 6,2017                                                   
+# Yale Wei, longanw@163.com  
+# locale: zh_CN.UTF-8                                           
+# OS: Linux Mint
+#----------------------------------------------------------------
 
-ImagePath ${HOME}/.fvwm/images:+
+# 环境变量
+SetEnv f_file       thunar
+SetEnv f_browser    firefox
+SetEnv f_editor     emacs
+SetEnv f_xterm      xfce4-terminal
+SetEnv f_office     wps
+SetEnv f_music      netease-cloud-music
+SetEnv f_IDE        idea
+SetEnv f_mail       thunderbird
+SetEnv f_deco       $[FVWM_USERDIR]/image/clearlook
+SetEnv f_script     $[FVWM_USERDIR]/scripts
+SetEnv f_wallpaper  $[FVWM_USERDIR]/image/wallpapers
+ImagePath           $[FVWM_USERDIR]/image/Xenlism-Wildfire:+
+#ImagePath           $[FVWM_USERDIR]/image/Faenza:+
+ImagePath           /usr/share/icons/hicolor/scalable:+
+# FreeBSD 路径与Linux不同，下列一行适用于FreeBSD
+ImagePath           /usr/local/share/icons/hicolor/scalable:+
+ImagePath           $[FVWM_USERDIR]/image:+
 
-###################################################################
-##---------------------------------------------------------------##
-### Zmienne							###
-##---------------------------------------------------------------##
-###################################################################
+# 使用svg图片格式的引用参考如下：
 
-SetEnv fvwm_terminal "urxvt -g 80x25"
-SetEnv fvwm_tail "urxvt -name tail -g 203x7+21+60 -tr +sb -rv -fg white"
-SetEnv fvwm_ncmpc "urxvt -name NCMPC -g 51x46+21+60 -tr +sb -fg white -bg black -tint green"
-#SetEnv fvwm_editor "urxvt -g 144x40 -e vim -c ':set tw=200'"
-SetEnv fvwm_editor gedit
+# image.svg:[!] [(1) size] [(2) position] [(3) rotation] [(4) scale] ...
+# (1) [-]width{x}[-]height
+# (2) { - | + }xpos{ - | + }ypos
+# (3) @[-]angle
+# (4) { * | / }[-]factor[ x | y ]
 
-###################################################################
-##---------------------------------------------------------------##
-### Tapeta 							###
-##---------------------------------------------------------------##
-###################################################################
+# 桌面缩略图尺寸设定
+SetEnv F_Icon_Size 192
 
-SetEnv fvwm_root "habak -ms"
-SetEnv fvwm_wallpaper_dir $[HOME]/Media/tapety
-SetEnv fvwm_wallpaper $[FVWM_USERDIR]/wallpapers/*
+# 默认字体大小及图标大小设定
+SetEnv font_size    14
+SetEnv i_size       64x64
+SetEnv m_size       32x32
 
-###################################################################
-##---------------------------------------------------------------##
-### Skrypty i foldery						###
-##---------------------------------------------------------------##
-###################################################################
+# 停靠坞尺寸及位置设定
+# 停靠坞位置计算式：f_dock_x = (ScreenWidth - DockWidth) / 2
+SetEnv f_dock_x     490
+SetEnv f_dock_size  620x70
 
-SetEnv fvwm_script_path $[FVWM_USERDIR]/scripts/
-SetEnv fvwm_icon_path $[FVWM_USERDIR]/images/icons
-SetEnv fvwm_config_path $[FVWM_USERDIR]
+# 注销对话框位置计算式：f_quit_x = (ScreenWidth - QuitWidth(280)) / 2
+SetEnv f_quit_x     660
 
-###################################################################
-##---------------------------------------------------------------##
-### Startup							###
-##---------------------------------------------------------------##
-###################################################################
+#----------------------------------------------------------------
+# Contents目录
 
-AddtoFunc InitFunction
-+ I Exec xrdb ~/.Xresources
-+ I Exec exec conky
-+ I Exec exec trayer --align right --width 25 --height 20 --transparent true --alpha 255
+# 1.FVWM启动设置
+# 2.通用设置
+# 3.程序样式设置
+# 4.虚拟桌面设置
+# 5.命令操作设置
+# 6.键鼠绑定设置
+# 7.菜单设置
+# 8.Dock设置
+#----------------------------------------------------------------
+
+
+# 1.FVWM启动设置
+# 模块可由Module、KillModule、RestartModule、ModuleOn、ModuleOff等命令
+# 进行加载、卸载、重载、开启及关闭。
+#----------------------------------------------------------------
 
 DestroyFunc StartFunction
 AddToFunc StartFunction
-+ I Exec exec $[fvwm_root] $[fvwm_wallpaper]
-+ I Module FvwmCommandS
-+ I Module FvwmProxy
-+ I Module FvwmEvent
-+ I Module FvwmButtons -g 384x37+440-0 Panel
-+ I Module FvwmButtons -g 1920x22-0+0 MacMenu
-+ I Exec exec ${fvwm_tail} -e ${fvwm_script_path}/tail
-
-###################################################################
-##---------------------------------------------------------------##
-#### Wykonywane przy wyjściu z FVWM
-##---------------------------------------------------------------##
-###################################################################
++ I Module  FvwmBanner
++ I Module  FvwmAuto 800 Raise Nop
++ I Module  FvwmButtons FvwmDock
++ I Module  FvwmAnimate
++ I Exec    fvwm-root --retain-pixmap $[f_wallpaper]/.current
++ I Exec    conky -c $[f_script]/conky.conf
++ I Exec    fcitx
 
 DestroyFunc ExitFunction
 AddToFunc ExitFunction
-+ I Test (!ToRestart) Exec exec rm -f $[HOME]/.fvwm/thumbnails/icon.tmp.*
++ I Exec    rm $[FVWM_USERDIR]/tmp/icon*
++ I Exec    killall conky
++ I Exec    killall fcitx -u fcitx-light-ui
 
-###################################################################
-##---------------------------------------------------------------##
-### Moduły							###
-##---------------------------------------------------------------##
-###################################################################
-Read fvwm2rc.settings
-Read fvwm2rc.misc
-Read fvwm2rc.cursors
-Read fvwm2rc.functions
-Read fvwm2rc.style
-Read fvwm2rc.colorsets
-Read fvwm2rc.wmdecor
-Read fvwm2rc.binds-mouse
-Read fvwm2rc.binds-keys
-Read fvwm2rc.menu
-Read fvwm2rc.macmenu
-Read fvwm2rc.thumbnails
-Read fvwm2rc.panel
+DestroyFunc RestartFunction
+AddToFunc RestartFunction
++ I All     (Iconic) ReThumbnail
++ I Module  Fvwmbuttons Fvwmdock
+
+*FvwmBanner:  NoDecor
+*FvwmBanner:  Pixmap $[FVWM_USERDIR]/image/banner.png
+*FvwmBanner:  Timeout 2
+
+*FvwmAnimate: Color blue
+*FvwmAnimate: Delay 30
+*FvwmAnimate: Iterations 5
+*FvwmAnimate: Twist 5
+# 动画效果：Frame, Lines, Flip, Turn, Zoom3D, Twist Random, None
+*FvwmAnimate: Effect Zoom3D
+
+# 2.通用设置
+#----------------------------------------------------------------
+
+# 通用程序色彩预设，利用IconAlpha的变化体现鼠标悬停动画
+Colorset 1 fg black, bg #e5e5e5, sh white, hi white, fgsh white, \
+         RootTransparent buffer, Tint #edeceb 50, IconAlpha 60
+Colorset 2 fg white, bg #1883f1, sh black, hi black, fgsh black, \
+         RootTransparent buffer, Tint #edeceb 50, IconAlpha 95
+
+# 窗口色彩 Decoration Colorsets 
+Colorset 3 fg white, bg #1883f1
+Colorset 4 fg black, bg #cccccc, sh white, fgsh white, VGradient 128 #f1f1f1 #EAE9E9
+
+# 鼠标样式定义
+CursorStyle DEFAULT    cursor/Cursor_Arrow.svg  0 0
+CursorStyle ROOT       cursor/Cursor_Arrow.svg  0 0
+CursorStyle MENU       cursor/Cursor_Arrow.svg  0 0
+CursorStyle TITLE      cursor/Cursor_Arrow.svg  0 0
+
+ClickTime              350
+MoveThreshold          3
+
+# 菜单色彩
+Colorset 6 bg #d0d0d0, fg blue
+Colorset 7 bg #1883f1, fg white
+
+# FvwmPager色彩设置，实现透明效果
+Colorset 8 fg white, bg white, hi white, RootTransparent buffer, Tint white 0
+Colorset 9 fg white, bg white, hi white, RootTransparent buffer, Tint white 30
+
+*FvwmFormDefault: Colorset 8
+*FvwmFormDefault: ItemColorset 9
+*FvwmIdent:       Colorset 6
+
+# 字体设置
+DefaultFont  "StringEncoding=utf8:Shadow=0 0 SE:xft:WenQuanYi Zen Hei: \
+             size=$[font_size]:Antialias=True:encoding=en_US.UTF-8"
+#Style * IconFont  "StringEncoding=gbk-0:Shadow=0 0 SE:xft:WenQuanYi Bitmap Song: \
+#                   size=9:encoding=iso10646-1"
+
+Style * Colorset 1, HilightColorset 2
+
+# 窗口边框厚度、颜色设置
+Style * BorderWidth 3, HandleWidth 3, BorderColorset 4, HilightBorderColorset 3
+Style * IconBox $[vp.width]x$[vp.height]+10+10, MouseFocusClickRaises, IconFill t l, \
+        IconTitleFormat %n, IconBackgroundPadding 0, IconBackgroundRelief 0
+Style * EWMHMiniIconOverride, IconOverride, NoIconTitle
+Style * DecorateTransient, UseDecor WindowDecoration, !StickyStippledTitle, TitleFormat %n
+Style * MinOverlapPlacement
+
+# 窗口聚焦模式
+Style "fbrun" GrabFocus, PositionPlacement Center
+Style * GrabFocus
+#Style * FocusFollowsMouse
+#Style * ClickToFocus
+Style * sloppyFocus
+Style * ResizeOpaque
+#Style * RoundedCornersTop, SlightlyRoundedCorners
+#Style * RoundedCornersBottom, SlightlyRoundedCorners
+Style * ResizeOutline, ResizeOutlineThin
+Style * DecorateTransient, NoPPosition
+#Style * SmartPlacement, WindowShadeSteps 20
+Style * NoIcon, NoIconTitle
+
+Style Fvwm* !Title, !Borders, !Iconifiable, WindowListSkip, !FixedPosition, FixedSize, Sticky, Layer 0
+Style FvwmButtons NeverFocus
+Style FvwmIdent Title
+
+# 窗口修饰
+# 设置标题栏，FVWM预设了10个按钮的位置，标题栏按钮的排列是从左至右依次排列为
+# 1 3 5 7 9 0 8 6 4 2，这只用了1 8 6 4 2五个按钮
+# +--------------------------------------------+
+# | *                               ?  _  #  X |
+# +--------------------------------------------+
+# | 1                               8  6  4  2 |
+# |                                            |
+#----------------------------------------------------------------
+
+DestroyDecor recreate WindowDecoration
+AddToDecor WindowDecoration
++ TitleStyle Active   TiledPixmap   $[f_deco]/window-active-title.png
++ TitleStyle Inactive TiledPixmap   $[f_deco]/window-inactive-title.png
++ TitleStyle Centered Height 24     -- flat
+#+ TitleStyle LeftJustified
+
+#+ BorderStyle -- HiddenHandles
+#+ BorderStyle -- Flat
++ ButtonStyle 1 MiniIcon
+
++ ButtonStyle 8 \
+  ActiveUp     (Pixmap $[f_deco]/window-active-arrows.png) \
+  ActiveDown   (Pixmap $[f_deco]/window-active-arrows-down.png) \
+  InactiveUp   (Pixmap $[f_deco]/window-inactive-arrows.png) \
+  InactiveDown (Pixmap $[f_deco]/window-inactive-arrows-down.png)
+
++ ButtonStyle 2 \
+  ActiveUp     (Pixmap $[f_deco]/window-active-close.png) \
+  ActiveDown   (Pixmap $[f_deco]/window-active-close-down.png) \
+  InactiveUp   (Pixmap $[f_deco]/window-inactive-close.png) \
+  InactiveDown (Pixmap $[f_deco]/window-inactive-close-down.png)
+
++ ButtonStyle 4 \
+  ActiveUp     (Pixmap $[f_deco]/window-active-maximize.png) \
+  ActiveDown   (Pixmap $[f_deco]/window-active-maximize-down.png) \
+  InactiveUp   (Pixmap $[f_deco]/window-inactive-maximize.png) \
+  InactiveDown (Pixmap $[f_deco]/window-inactive-maximize-down.png)
+
++ ButtonStyle 6 \
+  ActiveUp     (Pixmap $[f_deco]/window-active-iconify.png) \
+  ActiveDown   (Pixmap $[f_deco]/window-active-iconify-down.png) \
+  InactiveUp   (Pixmap $[f_deco]/window-inactive-iconify.png) \
+  InactiveDown (Pixmap $[f_deco]/window-inactive-iconify-down.png)
+
++ ButtonStyle All -- UseTitleStyle
++ ButtonStyle All -- flat
+
+
+# 3.程序样式设置
+# 请注意顺序，若几个项目同时对同一窗口进行设置，则窗口的样式根据项目的顺序依次
+# 生效，若设置项目有冲突，则只有最后一项目有效。
+#----------------------------------------------------------------
+
+Style ** MiniIcon apps/default.svg:$[i_size], Icon apps/default.svg:$[i_size]
+Style XTerm MiniIcon apps/xterm.svg:$[i_size], Icon apps/xterm.svg:$[i_size]
+Style *term* MiniIcon apps/xterm.svg:$[i_size], Icon apps/xterm.svg:$[i_size]
+Style vlc MiniIcon apps/vlc.svg:$[i_size], Icon apps/vlc.svg:$[i_size]
+Style Conky !Title, !Borders, !Iconifiable, WindowListSkip, FixedPosition, FixedSize, Sticky, Layer 0
+
+Style ROX-Filer MiniIcon apps/rox.svg:$[i_size], Icon apps/rox.svg:$[i_size]
+Style Rox MiniIcon apps/rox.svg:$[i_size], Icon apps/rox.svg:$[i_size]
+
+# Development tools
+Style QtCreator MiniIcon apps/qtcreator.svg:$[i_size], Icon apps/qtcreator.svg:$[i_size]
+Style Emacs* MiniIcon apps/emacs.svg:$[i_size], Icon apps/emacs.svg:$[i_size]
+Style liteide MiniIcon apps/liteide.svg:$[i_size], Icon apps/liteide.svg:$[i_size]
+Style Eclipse MiniIcon apps/eclipse.svg:$[i_size], Icon apps/eclipse.svg:$[i_size]
+Style codelite MiniIcon apps/codelite.svg:$[i_size], Icon apps/codelite.svg:$[i_size]
+Style jetbrains-idea-ce MiniIcon apps/idea.svg:$[i_size], Icon apps/idea.svg:$[i_size]
+Style jetbrains-clion MiniIcon apps/clion.svg:$[i_size], Icon apps/clion.svg:$[i_size]
+Style netbeans MiniIcon apps/netbeans.svg:$[i_size], Icon apps/netbeans.svg:$[i_size]
+Style gvim MiniIcon apps/gvim.svg:$[i_size], Icon apps/gvim.svg:$[i_size]
+Style Gimp MiniIcon apps/gimp.svg:$[i_size], Icon apps/gimp.svg:$[i_size]
+Style inkscape MiniIcon apps/inkscape.svg:$[i_size], Icon apps/inkscape.svg:$[i_size]
+Style *lender MiniIcon apps/blender.svg:$[i_size], Icon apps/blender.svg:$[i_size]
+Style VirtualBox MiniIcon apps/virtualbox.svg:$[i_size], Icon apps/virtualbox.svg:$[i_size]
+Style Remarkable MiniIcon apps/remarkable.svg:$[i_size], Icon apps/remarkable.svg:$[i_size]
+
+# Internet tools
+Style netease-cloud-music !Title,MiniIcon apps/netease-cloud-music.svg:$[i_size], Icon apps/netease-cloud-music.svg:$[i_size]
+Style Mintinstall.py MiniIcon apps/synaptic.svg:$[i_size], Icon apps/synaptic.svg:$[i_size]
+Style synaptic MiniIcon apps/synaptic.svg:$[i_size], Icon apps/synaptic.svg:$[i_size]
+Style Uget-gtk MiniIcon apps/uget-icon.svg:$[i_size], Icon apps/uget-icon.svg:$[i_size]
+Style Firefox MiniIcon apps/firefox.svg:$[i_size], Icon apps/firefox.svg:$[i_size]
+Style Opera MiniIcon apps/opera.svg:$[i_size], Icon apps/opera.svg:$[i_size]
+Style Thunderbird MiniIcon apps/thunderbird.svg:$[i_size], Icon apps/thunderbird.svg:$[i_size]
+Style Chromium-browser !Title,MiniIcon apps/chrome.svg:$[i_size], Icon apps/chrome.svg:$[i_size]
+Style Bcloud-gui MiniIcon apps/bcloud.svg:$[i_size], Icon apps/bcloud.svg:$[i_size]
+
+# Office
+Style libreoffice MiniIcon apps/libreoffice.svg:$[i_size], Icon apps/libreoffice.svg:$[i_size]
+Style libreoffice-writer MiniIcon apps/libreoffice-writer.svg:$[i_size], Icon apps/libreoffice-writer.svg:$[i_size]
+Style libreoffice-calc MiniIcon apps/libreoffice-calc.svg:$[i_size], Icon apps/libreoffice-calc.svg:$[i_size]
+Style libreoffice-impress MiniIcon apps/libreoffice-impress.svg:$[i_size], Icon apps/libreoffice-impress.svg:$[i_size]
+Style libreoffice-math MiniIcon apps/libreoffice-math.svg:$[i_size], Icon apps/libreoffice-math.svg:$[i_size]
+Style libreoffice-base MiniIcon apps/libreoffice-base.svg:$[i_size], Icon apps/libreoffice-base.svg:$[i_size]
+Style yozo !Title, MiniIcon apps/yozo.svg:$[i_size], Icon apps/yozo.svg:$[i_size]
+Style Wps !Title, MiniIcon apps/wps-office-wpsmain.svg:$[i_size], Icon apps/wps-office-wpsmain.svg:$[i_size]
+Style Wpp !Title, MiniIcon apps/wps-office-wppmain.svg:$[i_size], Icon apps/wps-office-wppmain.svg:$[i_size]
+Style Et !Title, MiniIcon apps/wps-office-etmain.svg:$[i_size], Icon apps/wps-office-etmain.svg:$[i_size]
+Style Xpdf MiniIcon apps/xpdf.svg:$[i_size], Icon apps/xpdf.svg:$[i_size]
+Style Evince MiniIcon apps/evince.svg:$[i_size], Icon apps/evince.svg:$[i_size]
+Style xreader MiniIcon apps/xreader.svg:$[i_size], Icon apps/xreader.svg:$[i_size]
+Style masterpdfeditor4 MiniIcon apps/masterpdf.svg:$[i_size], Icon apps/masterpdf.svg:$[i_size]
+Style Goldendict MiniIcon apps/goldendict.svg:$[i_size], Icon apps/goldendict.svg:$[i_size]
+
+# Accessories
+Style banshee MiniIcon apps/banshee.svg:$[i_size], Icon apps/banshee.svg:$[i_size]
+Style audacious MiniIcon apps/audacious.svg:$[i_size], Icon apps/audacious.svg:$[i_size]
+Style keepass MiniIcon apps/keepass.svg:$[i_size], Icon apps/keepass.svg:$[i_size]
+Style Xviewer MiniIcon apps/xviewer.svg:$[i_size], Icon apps/xviewer.svg:$[i_size]
+Style Shutter MiniIcon apps/shutter.svg:$[i_size], Icon apps/shutter.svg:$[i_size]
+Style pix MiniIcon apps/pix.svg:$[i_size], Icon apps/pix.svg:$[i_size]
+Style XCalc MiniIcon apps/accessories-calculator.svg:$[i_size], Icon apps/accessories-calculator.svg:$[i_size]
+Style Gtk3-demo MiniIcon apps/gtk3-demo.svg:$[i_size], Icon apps/gtk3-demo.svg:$[i_size]
+Style xplayer MiniIcon apps/xplayer.svg:$[i_size], Icon apps/xplayer.svg:$[i_size]
+Style nvidia-settings MiniIcon apps/nvidia-settings.svg:$[i_size], Icon apps/nvidia-settings.svg:$[i_size]
+Style Green-Recorder MiniIcon apps/green-recorder.svg:$[i_size], Icon apps/green-recorder.svg:$[i_size]
+Style Nm-connection-editor MiniIcon apps/wifi.svg:$[i_size], Icon apps/wifi.svg:$[i_size]
+
+# 设置程序特定页面,后台打开使用SkipMapping
+# 若想启动界面其中,去掉下行前注释号"#"
+#Style * PositionPlacement Center
+Style * RecaptureHonorsStartsOnPage, CaptureHonorsStartsOnPage
+
+Style Firefox      StartsOnPage 1 0
+Style Chromium*    StartsOnPage 1 0
+Style Opera        StartsOnPage 1 0
+Style Thunderbird  StartsOnPage 1 0
+
+Style Eclipse*     StartsOnPage 0 1, SkipMapping
+Style jetbrains*   StartsOnPage 0 1, SkipMapping
+Style liteide*     StartsOnPage 0 1, SkipMapping
+Style netbeans*    StartsOnPage 0 1, SkipMapping
+Style QtCreator*   StartsOnPage 0 1, SkipMapping
+
+Style Gimp*        StartsOnPage 1 1, SkipMapping
+Style inkscape*    StartsOnPage 1 1, SkipMapping
+Style vlc*         StartsOnPage 1 1
+Style Uget-gtk*    StartsOnPage 1 1
+
+# 4.虚拟桌面设置
+#----------------------------------------------------------------
+
+DeskTopSize 2x2
+IgnoreModifiers L25
+HideGeometryWindow Always
+EwmhBaseStruts 0 0 0 0
+Style * SnapAttraction 5 SameType
+EdgeScroll 0 0
+EdgeResistance 2
+Style * EdgeMoveDelay 15
+Style * EdgeMoveResistance 100
+ColormapFocus FollowsMouse
+EdgeThickness 0
+EdgeCommand Top WindowList -50p +0p
+OpaqueMoveSize unlimited
+BugOpts FlickeringMoveWorkaround Off
+Style * SnapGrid 1 1
+
+
+# 5.命令操作设置
+#----------------------------------------------------------------
+# C 一个鼠标点击
+# D 一个鼠标双击
+# M 鼠标拖动
+# I 表示 Imediately,立即执行，联想"C"和"M",这个操作不等待任何鼠标动作
+# Close,Delete,Destroy,Iconify,Maximize,WindowShade,
+# Raise,Lower,Move,Resize,... 这些都是常用的操纵窗口的命令。
+# OpaqueMoveSize(不透明的移动)x,MoveToDesk,MoveToPage
+#----------------------------------------------------------------
+
+DestroyFunc MaximizeFunc
+AddToFunc MaximizeFunc
++ C Maximize
++ D Maximize ewmhiwa True
++ M Maximize 0 100
+
+DestroyFunc ResizeFunc
+AddToFunc ResizeFunc 
++ M EWMHActivateWindowFunc
++ I Resize
+
+DestroyFunc MoveFunc
+AddToFunc MoveFunc
++ M EWMHActivateWindowFunc
++ I Move
+
+DestroyFunc TitleMaximize
+AddToFunc TitleMaximize
++ I Raise
++ C Maximize
++ M Move
+
+# 关闭显示屏函数
+DestroyFunc LockScreen
+AddToFunc LockScreen
++ I Exec sleep 1; xset dpms force off
+
+# 修正系统函数切换窗口鼠标位于左上角问题，调整为Alt + TAB键切换时，鼠标居中
+DestroyFunc WindowListFunc
+AddToFunc WindowListFunc
++ I Iconify off
++ I FlipFocus
++ I Raise
++ I WarpToWindow 50 50
++ I Pick (CirculateHit) Layer 0 4
+
+DestroyFunc ReThumbnail
+AddToFunc ReThumbnail
++ I Iconify
++ I Thumbnail
+
+
+# 桌面缩略图
+
+DestroyFunc Thumbnail
+AddToFunc Thumbnail
++ I Raise
++ I ThisWindow (!Iconic) SetEnv Icon-$[w.id] $[w.iconfile]
++ I ThisWindow (!Shaded, Iconifiable, !Iconic) PipeRead \
+  "xwd -silent -id $[w.id] | convert -scale $[F_Icon_Size] -quality 0 \
+  xwd:- png:$[FVWM_USERDIR]/tmp/icon.$[w.id].png; \
+  convert -resize $[i_size] $[w.iconfile]  $[FVWM_USERDIR]/tmp/icon0.$[w.id].png; \
+  composite -geometry +5+5  $[FVWM_USERDIR]/tmp/icon0.$[w.id].png \
+  $[FVWM_USERDIR]/tmp/icon.$[w.id].png $[FVWM_USERDIR]/tmp/icon.$[w.id].png; \
+  echo WindowStyle IconOverride, Icon $[FVWM_USERDIR]/tmp/icon.$[w.id].png \
+  || echo Nop"
++ I Pick (CirculateHit) Layer 0 0
++ I Iconify
+
+DestroyFunc DeThumbnail
+AddToFunc DeThumbnail
++ I PipeRead "echo WindowStyle IconOverride, Icon \\$\\[Icon-$[w.id]\\]"
++ I Iconify
++ I All (Iconic, CurrentPage) PlaceAgain icon
++ I Pick (CirculateHit) Layer 0 4
++ I UnsetEnv Icon-$[w.id]
++ I Exec rm -f $[FVWM_USERDIR]/tmp/icon.$[w.id].png  $[FVWM_USERDIR]/tmp/icon0.$[w.id].png
+
+# 桌面墙纸浏览
+DestroyFunc WallpaperBrowser
+AddToFunc WallpaperBrowser
++ I DestroyMenu recreate MenuWallpaper
++ I AddToMenu MenuWallpaper
++ I PipeRead '$[f_script]/wallpaper.sh $[f_wallpaper]'
+
+# 屏幕截图
+DestroyFunc FvwmWinShot
+AddToFunc FvwmWinShot
++ I ThisWindow (!Shaded !Iconic Iconifiable) \
+  Exec import -window $[w.id] -quality 100 -silent \
+  "$[FVWM_USERDIR]/snap/snap-`date +%F`.$[w.id].jpg"
+
+DestroyFunc FvwmDeskShot
+AddToFunc FvwmDeskShot
++ I Exec sleep 2; import -window root -quality 100 -silent \
+  "$[FVWM_USERDIR]/snap/snap-`date +%F`.jpg"
+
+# 层叠窗口
+DestroyFunc WindowTo2Col
+AddToFunc WindowTo2Col
++ I All (CurrentPage,!Fvwm*, !gkrellm, !trayer) WindowShade off
++ I Piperead 'echo FvwmRearrange -tile -animate -resize -mn 2 -m \
+  $[EWMH-BS-Panel-Left]p $[EWMH-BS-Panel-Top]p `expr -e $[vp.width] - \
+  $[EWMH-BS-Panel-Right]`p `expr -e $[vp.height] - $[EWMH-BS-Panel-Bottom]`p'
+
+DestroyFunc WindowTo2Row
+AddToFunc WindowTo2Row
++ I All (CurrentPage,!Fvwm*, !gkrellm, !trayer) WindowShade off
++ I Piperead 'echo FvwmRearrange -tile -animate -resize -mn 2 -m -h \
+  $[EWMH-BS-Panel-Left]p $[EWMH-BS-Panel-Top]p `expr -e $[vp.height] - \
+  $[EWMH-BS-Panel-Bottom]`p `expr -e $[vp.width] - $[EWMH-BS-Panel-Right]`p'
+
+# 注销对话框
+
+Style FvwmQuit !Title, StaysOnTop, Sticky,!StickyStippledTitle,WindowListSkip, \
+               CirculateSkipIcon, CirculateSkip, HandleWidth 1, \
+               BorderWidth 0, NeverFocus, Layer 10
+
+DestroyModuleConfig FvwmQuit: *
+*FvwmQuit: BoxSize fixed
+*FvwmQuit: Colorset 9
+*FvwmQuit: Rows 18
+*FvwmQuit: Columns 40
+*FvwmQuit: Geometry 280x140+$[f_quit_x]-360
+*FvwmQuit: Padding 0 0
+*FvwmQuit: Frame 0
+*FvwmQuit: Font "StringEncoding=utf8:Shadow=0 0 SE:xft:WenQuanYi Zen Hei: \
+           size=8:Antialias=True:encoding=en_US.UTF-8"
+*FvwmQuit: (4x4+35+1, ActionOnPress, Icon apps/close.svg:$[m_size], \
+ ActiveIcon apps/close.svg:!$[m_size]*0.75, Action(Mouse 1) `KillModule FvwmButtons FvwmQuit`)
+ 
+*FvwmQuit: (10x8+2+5, ActionOnPress, Icon apps/system-reboot.svg:$[i_size], \
+ ActiveIcon apps/system-reboot.svg:$[i_size]*0.75, Action(Mouse 1) `exec killall fvwm && sudo shutdown -r now`)
+ 
+*FvwmQuit: (10x8+14+5, ActionOnPress, Icon apps/system-shutdown.svg:$[i_size], \
+ ActiveIcon apps/system-shutdown.svg:$[i_size]*0.75, Action(Mouse 1) `exec killall fvwm && sudo shutdown -p now`)
+ 
+*FvwmQuit: (10x8+26+5, ActionOnPress, Icon apps/system-log-out.svg:$[i_size], \
+ ActiveIcon apps/system-log-out.svg:$[i_size]*0.75, Action(Mouse 1) Quit )
+
+*FvwmQuit: (10x5+2+13, Title "Reboot")
+*FvwmQuit: (10x5+14+13, Title "Shutdown")
+*FvwmQuit: (10x5+26+13, Title "Exit")
+
+# 6.键鼠绑定设置
+#----------------------------------------------------------------
+
+# Button 这是指鼠标的按键
+# 0 表示任意键按下都会有反应
+# 1 表示左键
+# 2 表示中键
+# 3 表示右键
+# 4 表示上滚滚轮
+# 5 表示下滚滚轮
+
+# Context 是用来描述在什么地方才会有用
+# R 表示在root window ，也就是整个背景屏幕
+# W 表示在窗口上面
+# T 表示在标题上面
+# S 表示在窗口四周的边框上面
+# F 表示在窗口的四角上面
+# I 表示在图标上面
+# A 表示在标题以外的任何地方
+# 上面的各项可以混合使用。如"FST" 表示整个窗口的任何地方，除了标题栏上的按钮之外。
+
+# Modifiers 这个项目是指有无其他的组合键的配合。
+# N 表示没有其他的组合键。
+# C 表示CTRL键。
+# S 表示SHIFT键。
+# A 表示Any任何键。
+# M 表示Meta键,PC中为ALT键。
+# 上面各项也可以混合用，例如"CM"表示CTRL+ALT 键。"CMS" 表示CTRL+ALT+SHIFT键。
+
+# Function 可以是任何FVWM内建的功能。
+#----------------------------------------------------------------
+
+# Button Context Modifiers Function
+
+# 键盘绑定
+
+# Alt+R 重启fvwm
+Key	R A	M Restart
+
+# Alt+tab 显示任务切换
+Key Tab A M -
+Key Tab A M alttab
+
+AddToFunc alttab
++ I Next (AcceptsFocus CurrentDesk CurrentPage !Iconic) Focus
++ I Prev (AcceptsFocus CurrentDesk CurrentPage !Iconic) WarpToWindow 50 50
++ I WindowList Root c c NoCurrentDeskTitle,NoGeometry,CurrentDesk,Icons,Sticky, \
+                        OnTop,OnBottom,MaxLabelWidth 320,IconifiedAtEnd,SelectOnRelease Alt_L
+
+# win       弹出主菜单
+# Alt+F1    浏览FVWM主页FAQ
+# Alt+F2    重排窗口为两列
+# Alt+F3    重排窗口为两行
+# Alt+F4    关闭窗口，直至显示退出桌面对话框
+# Alt+F5    屏幕截图
+# Alt+F6    关闭显示屏
+
+Key Super_L AT    N Menu MenuFvwmRoot
+Key F1      R     M Exec $[f_browser] http://www.fvwm.org/documentation/faq
+Key F2      AT    M Function WindowTo2Col
+Key F3      AT    M Function WindowTo2Row
+Key F4      TW    M Close
+Key F4      R     M Module FvwmButtons FvwmQuit
+Key F5      AT    M Function FvwmDeskShot
+Key F6      AT    M Function LockScreen
+
+#----------------------------------------------------------------
+# Shift+左      左卷一屏
+# Shift+右      右卷一屏
+# Shift+下      下卷一屏
+# Shift+上      上卷一屏
+# Alt+左        左卷1/4屏
+# Alt+右        右卷1/4屏
+# Alt+下        下卷1/4屏
+# Alt+上        上卷1/4屏
+# Alt+Ctrl+下   音量降低5%
+# Alt+Ctrl+上   音量调高5%
+
+Key Left    A SC    Scroll -100 0
+Key Right   A SC    Scroll +100 +0
+Key Up      A SC    Scroll +0   -100
+Key Down    A SC    Scroll +0   +100
+Key Left    A MS    Scroll -25 +0
+Key Right   A MS    Scroll +25 +0
+Key Up      A MS    Scroll +0  -25
+Key Down    A MS    Scroll +0  +25
+
+# 音量调节软件，以下控制为FreeBSD下的mixer命令，Linux Mint中为amixer，需修改
+Key Up      A MC   Exec mixer -f /dev/mixer vol +5
+Key Down    A MC   Exec mixer -f /dev/mixer vol -5
+
+#----------------------------------------------------------------
+# 鼠标绑定
+
+# 滚轮+Alt         循环切换窗口排列
+# 标题栏点左键      最大化窗口/恢复窗口
+# 标题栏点右键      窗口提升一级
+# 标题栏点中键      窗口下降一级
+# 标题栏转动渡轮    窗口卷起/恢复
+
+Mouse 3   R     N   Menu MenuFvwmRoot
+Mouse 1   R     N   Menu GlobalOps
+Mouse 2   R     N   WindowList mouse -1p -1p
+Mouse 2   R     N   WindowList NoCurrentDeskTitle,NoGeometry,CurrentDesk
+Mouse 4   R     C   None (Maximized, Raised, Focused, !Iconic) Prev \
+                    (CurrentPage, AcceptsFocus, !Iconic) EWMHActivateWindowFunc
+Mouse 5   R     C   None (Maximized, Raised, Focused, !Iconic) Next \
+                    (CurrentPage, AcceptsFocus, !Iconic) EWMHActivateWindowFunc
+Mouse 4   AT    M   WindowTo2Col
+Mouse 5   AT    M   WindowTo2Row
+Mouse 1   FST   N   ResizeFunc
+Mouse 1   I     N   DeThumbnail
+Mouse 3   I     N   Menu Move-Window
+Mouse 4   I     N   DeThumbnail
+Mouse 5   I     N   DeThumbnail
+Mouse 3   T     N   Pick (CirculateHit) Layer +1
+Mouse 2   T     N   Pick (CirculateHit) Layer -1
+Mouse 4   T     N   WindowShade True
+Mouse 5   T     N   WindowShade False
+Mouse 1   W     M   MoveFunc
+Mouse 1   T     N   TitleMaximize
+
+# 窗口按钮绑定
+# 右击最小化键，所有窗口最小化
+Mouse 1   1     N   Menu Window-Ops
+Mouse 3   1     N   Menu Move-Window
+Mouse 1   2     N   Close
+Mouse 3   2     N   All (!Fvwm*, !gkrellm, !trayer) Close
+Mouse 1   4     N   MaximizeFunc
+Mouse 2   4     N   Maximize 0 100
+Mouse 3   4     N   Maximize 100 0
+Mouse 1   6     N   Iconify
+Mouse 3   6     N   All (CurrentPage,!Fvwm*, !gkrellm, !trayer) Iconify on
+Mouse 1   8     N   Thumbnail
+Mouse 3   8     N   All (CurrentPage,!Fvwm*, !gkrellm, !trayer, Iconifiable, !Iconic) Thumbnail
+
+# 7.菜单设置
+#----------------------------------------------------------------
+
+MenuStyle * MenuColorset 6, ActiveColorset 7
+MenuStyle * BorderWidth 1, HilightBack, ActiveFore
+MenuStyle * Hilight3DThickness 0, !Animation
+MenuStyle * PopupDelayed, PopupDelay 500, PopdownImmediately, PopupOffset 1 400
+MenuStyle * TitleUnderlines0, TrianglesSolid
+MenuStyle * ItemFormat "%s%|%5.i%5.5l%5.5r%.5>%|%i"
+MenuStyle * VerticalItemSpacing 5, VerticalTitleSpacing 5
+
+# 左右加图标格式如下,字母前添加“&”表示设该字母为快捷键
+# + %pic1.png%"&MenuName"%pic2.png% Exec application
+DestroyMenu MenuFvwmRoot
+AddToMenu MenuFvwmRoot "Root Menu" Title
++ ""   Nop
++ "&terminal"%apps/xterm.svg:$[m_size]%                                 Exec  $[f_xterm]
+Test (x $[f_file])+ "$[f_file]"%apps/file-manager.svg:$[m_size]%        Exec  $[f_file]
+Test (x $[f_browser])+ "$[f_browser]"%apps/$[f_browser].svg:$[m_size]%  Exec  $[f_browser]
+Test (x $[f_mail])+ "$[f_mail]"%apps/$[f_mail].svg:$[m_size]%           Exec  $[f_mail]
++ "development"%categories/applications-development.svg:$[m_size]%      Popup Development
++ "internet"%categories/applications-internet.svg:$[m_size]%            Popup Internet
++ "office"%categories/applications-office.svg:$[m_size]%                Popup Office
++ "accessories"%categories/applications-accessories.svg:$[m_size]%      Popup Accessories
++ ""   Nop
++ "Restart Fv&wm"%apps/system-reboot.svg:$[m_size]%                     Restart
++ "&Quit"%apps/system-log-out.svg:$[m_size]%                            Module FvwmButtons FvwmQuit
+
+
+DestroyMenu Development
+AddToMenu Development
+Test (x qtcreator)+ "qtcreator"%apps/qtcreator.svg:$[m_size]%           Exec qtcreator
+Test (x emacs)+ "Emacs"%apps/emacs.svg:$[m_size]%                       Exec emacs
+Test (x liteide)+ "liteide"%apps/liteide.svg:$[m_size]%                 Exec liteide
+Test (x eclipse)+ "eclipse"%apps/eclipse.svg:$[m_size]%                 Exec eclipse
+Test (x codelite)+ "codelite"%apps/codelite.svg:$[m_size]%              Exec codelite
+Test (x idea)+ "idea"%apps/idea.svg:$[m_size]%                          Exec idea
+Test (x netbeans)+ "netbeans"%apps/netbeans.svg:$[m_size]%              Exec netbeans
+Test (x gvim)+ "Gvim"%apps/gvim.svg:$[m_size]%                          Exec gvim
+Test (x clion)+ "Clion"%apps/clion.svg:$[m_size]%                       Exec clion
+Test (x gimp)+ "Gimp"%apps/gimp.svg:$[m_size]%                          Exec gimp
+Test (x inkscape)+ "inkscape"%apps/inkscape.svg:$[m_size]%              Exec inkscape
+Test (x blender)+ "blender"%apps/blender.svg:$[m_size]%                 Exec blender
+Test (x virtualbox)+ "virtualbox"%apps/virtualbox.svg:$[m_size]%        Exec virtualbox
+Test (x remarkable)+ "Remarkable"%apps/remarkable.svg:$[m_size]%        Exec remarkable
+
+DestroyMenu Internet
+AddToMenu Internet
+Test (x netease-cloud-music)+ "netease music"%apps/netease-cloud-music.svg:$[m_size]%   Exec netease-cloud-music
+Test (x mintinstall)+ "Soft Center"%apps/synaptic.svg:$[m_size]%                        Exec gksu mintinstall
+Test (x uget-gtk)+ "uget"%apps/uget-icon.svg:$[m_size]%                                 Exec uget-gtk
+Test (x firefox)+ "firefox"%apps/firefox.svg:$[m_size]%                                 Exec firefox
+Test (x opera)+ "opera"%apps/opera.svg:$[m_size]%                                       Exec opera
+Test (x chromium-browser)+ "chromium"%apps/chrome.svg:$[m_size]%                        Exec chromium-browser
+Test (x bcloud-gui)+ "bcloud"%apps/bcloud.svg:$[m_size]%                                Exec bcloud-gui
+
+DestroyMenu Office
+AddToMenu Office
+Test (x libreoffice)+ "libreoffice"%apps/libreoffice.svg:$[m_size]%                         Exec libreoffice
+Test (x libreoffice-writer)+ "libreoffice-writer"%apps/libreoffice-writer.svg:$[m_size]%    Exec libreoffice-writer
+Test (x libreoffice-calc)+ "libreoffice-calc"%apps/libreoffice-calc.svg:$[m_size]%          Exec libreoffice-calc
+Test (x libreoffice-impress)+ "libreoffice-impress"%apps/libreoffice-impress.svg:$[m_size]% Exec libreoffice-impress
+Test (x libreoffice-math)+ "libreoffice-math"%apps/libreoffice-math.svg:$[m_size]%          Exec libreoffice-math
+Test (x libreoffice-base)+ "libreoffice-base"%apps/libreoffice-base.svg:$[m_size]%          Exec libreoffice-base
+Test (x yozo)+ "YozoOffice"%apps/yozoicon.svg:$[m_size]%                                    Exec yozo
+Test (x wps)+ "WPS Writer"%apps/wps-office-wpsmain.svg:$[m_size]%                           Exec wps
+Test (x wpp)+ "WPS Presentation"%apps/wps-office-wppmain.svg:$[m_size]%                     Exec wpp
+Test (x et)+ "WPS Spreadsheets"%apps/wps-office-etmain.svg:$[m_size]%                       Exec et
+Test (x xpdf)+ "Xpdf"%apps/xpdf.svg:$[m_size]%                               Exec xpdf
+Test (x evince)+ "evince"%apps/evince.svg:$[m_size]%                         Exec evince
+Test (x xreader)+ "Xreader"%apps/xreader.svg:$[m_size]%                      Exec xreader
+Test (x masterpdfeditor4)+ "Masterpdf"%apps/masterpdf.svg:$[m_size]%         Exec masterpdfeditor4
+Test (x goldendict)+ "goldendict"%apps/goldendict.svg:$[m_size]%             Exec goldendict
+
+DestroyMenu Accessories
+AddToMenu Accessories
++ "Wallpaper"%apps/preferences-desktop-wallpaper.svg:$[m_size]% Popup MenuWallpaper
+Test (x xterm)+ "xterm/root(80x40)"%apps/rootxterm.svg:$[m_size]%       Exec xterm -n root@$HOST -T root@$HOST \
+                                                                        -g 80x40 -sb +sk +si -sl 4096 -j -ls -fn 7x14 \
+                                                                        -fb 7x14bold -fg violet -bg black -e su -l
+Test (x banshee)+ "banshee"%apps/banshee.svg:$[m_size]%                 Exec banshee --redirect-log --play-enqueued
+Test (x audacious)+ "audacious"%apps/audacious.svg:$[m_size]%           Exec audacious
+Test (x keepass)+ "keepass"%apps/keepass.svg:$[m_size]%                 Exec keepass
+Test (x xviewer)+ "xviewer"%apps/xviewer.svg:$[m_size]%                 Exec xviewer
+Test (x shutter)+ "shutter"%apps/shutter.svg:$[m_size]%                 Exec shutter
+Test (x pix)+ "pix"%apps/pix.svg:$[m_size]%                             Exec pix
+
++ "calculator"%apps/accessories-calculator.svg:$[m_size]%               Exec xcalc
+Test (x gtk3-demo)+ "gtk3-demo"%apps/gtk-demo.svg:$[m_size]%            Exec gtk3-demo
++ "screenSnap"%apps/screenshot.svg:$[m_size]%                           Function FvwmDeskShot
++ "capture Form"%apps/snapshot.svg:$[m_size]%                           FvwmForm FvwmForm-Capture
++ "Identify"%apps/about.svg:$[m_size]%                                  Module FvwmIdent
+Test (x xkill)+ "xkill"%apps/xkill.svg:$[m_size]%                       Exec xkill
+Test (x nvidia-settings)+ "nVidia-settings"%apps/nvidia-settings.svg:$[m_size]%  Exec nvidia-settings
+Test (x nm-connection-editor)+ "network"%apps/wifi.svg:$[m_size]%                Exec nm-connection-editor
+Test (x lantern)+ "lantern"%apps/lantern.svg:$[m_size]%                          Exec lantern
+Test (x green-recorder)+ "green-recorder"%apps/green-recorder.svg:$[m_size]%     Exec green-recorder
+
+DestroyMenu Move-Window
+AddToMenu Move-Window
++ "Page 1"%apps/workspace-switcher-top-left.svg:$[m_size]%        MoveToPage 0 0
++ "Page 2"%apps/workspace-switcher-right-top.svg:$[m_size]%       MoveToPage 1 0
++ "Page 3"%apps/workspace-switcher-left-bottom.svg:$[m_size]%     MoveToPage 0 1
++ "Page 4"%apps/workspace-switcher-right-bottom.svg:$[m_size]%    MoveToPage 1 1
+
+DestroyMenu Window-Ops
+AddToMenu Window-Ops
++ "Move"                                        Move
++ "Resize"                                      Resize
++ "(De)Iconify"                                 Iconify
++ "(Un)Maximize"                                Maximize 100 100
++ "(Un)Maxwide"                                 Maximize 100 0
++ "(Un)MaxAll"                                  Maximize 0 100
++ "" Nop
++ "Close"%apps/close.svg:$[m_size]%             Close
++ "Destroy"                                     Destroy
++ "Identi&fy"                                   Module FvwmIdent
++ "" Nop
++ "StaysOnTop"                                  Pick (CirculateHit) Layer 0 9
++ "Layer +1"                                    Pick (CirculateHit) Layer +1
++ "StaysPut"                                    Pick (CirculateHit) Layer 0 4
++ "Layer -1"                                    Pick (CirculateHit) Layer -1
++ "StaysOnBottom"                               Pick (CirculateHit) Layer 0 0
++ "" Nop
++ "Desk shot"%apps/screenshot.svg:$[m_size]%    Pick (CirculateHit) FvwmDeskShot
++ "Window sh&ot"%apps/snapshot.svg:$[m_size]%   Pick (CirculateHit) FvwmWinShot
+
+DestroyMenu GlobalOps
+AddToMenu GlobalOps "Global Operations" TITLE
++ "" Nop
++ "(All)Close"          All (!Fvwm*, !gkrellm, !trayer) Close
++ "(All)Iconify"        All (CurrentPage,!Fvwm*, !gkrellm, !trayer) Iconify on
++ "(All)DeIconify"      All (CurrentPage,!Fvwm*, !gkrellm, !trayer) Iconify off
++ "(All)Shade"          All (CurrentPage,!Fvwm*, !gkrellm, !trayer) WindowShade on
++ "(All)UnShade"        All (CurrentPage,!Fvwm*, !gkrellm, !trayer) WindowShade off
++ "(All)Thumbnail"      All (CurrentPage,!Fvwm*, !gkrellm, !trayer, Iconifiable, !Iconic) Thumbnail
++ "(All)DeThumbnail"    All (CurrentPage,!Fvwm*, !gkrellm, !trayer, Iconifiable, Iconic) DeThumbnail
++ "(All)to Two Columns" All (CurrentPage,!Fvwm*, !gkrellm, !trayer) WindowTo2Col
++ "(All)to Two Rows"    All (CurrentPage,!Fvwm*, !gkrellm, !trayer) WindowTo2Row
+
+DestroyMenu MenuWallpaper
+AddToMenu MenuWallpaper
++ DynamicPopupAction Function WallpaperBrowser
+
+# 8.Dock设置
+#----------------------------------------------------------------
+
+DestroyModuleConfig FvwmPager
+*FvwmPager: Geometry 64x64-0-0
+*FvwmPager: BorderWidth 0
+*FvwmPager: Balloons All
+*FvwmPager: Font none
+*FvwmPager: Layer 0
+*FvwmPager: BallonYOffset +2
+*FvwmPager: WindowBorderWidth 1
+*FvwmPager: WindowLabelFormat ""
+*FvwmPager: MoveThreshold 0
+*FvwmPager: UseSkipList
+*FvwmPager: Rows 1
+*FvwmPager: Columns 1
+*FvwmPager: NoSeparators
+*FvwmPager: ShapeLabels
+*FvwmPager: Colorset * 8
+*FvwmPager: HilightColorset * 9
+*FvwmPager: BalloonColorset * 3
+*FvwmPager: WindowColorsets 9 $[cs-panel-winactive]
+
+Style FvwmDock !Title, StaysOnBottom, Sticky, WindowListSkip, CirculateSkipIcon, CirculateSkip, \
+               HandleWidth 0, BorderWidth 0, NeverFocus, Layer 0
+ 
+
+
+DestroyModuleConfig FvwmDock: *
+*FvwmDock: BoxSize fixed
+*FvwmDock: Colorset 9
+*FvwmDock: Rows 20
+*FvwmDock: Columns 49
+*FvwmDock: Geometry $[f_dock_size]+$[f_dock_x]-3
+*FvwmDock: Padding 0 0
+*FvwmDock: Frame 0
+
+*FvwmDock: (5x20+1+0, ActionOnPress, Icon places/user-home.svg:$[i_size], ActiveIcon places/user-home.svg:$[i_size]*0.75, \
+           Action(Mouse 1) `Exec $[f_file]`, Action(Mouse 3) `Exec $[f_file] -d=/media`)
+*FvwmDock: (5x20+7+0, ActionOnPress, Icon apps/xterm.svg:$[i_size], ActiveIcon apps/xterm.svg:$[i_size]*0.75, \
+           Action(Mouse 1) `Exec $[f_xterm]`, Action(Mouse 3) `Exec Eterm --borderless --buttonbar 0 --trans --shade 50 --scrollbar false`)
+*FvwmDock: (5x20+13+0, ActionOnPress, Icon apps/vlc.svg:$[i_size], ActiveIcon apps/vlc.svg:$[i_size]*0.75, \
+           Action(Mouse 1) `Exec vlc`, Action(Mouse 3) `Exec $[f_music]`)
+*FvwmDock: (5x20+19+0, ActionOnPress, Icon apps/$[f_office].svg:$[i_size], ActiveIcon apps/$[f_office].svg:$[i_size]*0.75, \
+           Action(Mouse 1) `Exec $[f_office]`, Action(Mouse 3) `Exec $[f_editor]`)
+*FvwmDock: (5x20+25+0, ActionOnPress, Icon apps/$[f_IDE].svg:$[i_size], ActiveIcon apps/$[f_IDE].svg:$[i_size]*0.75, \
+           Action(Mouse 1) `Exec $[f_IDE]`, Action(Mouse 3) `Exec liteide`)
+*FvwmDock: (5x20+31+0, ActionOnPress, Icon apps/$[f_browser].svg:$[i_size], ActiveIcon apps/$[f_browser].svg:$[i_size]*0.75, \
+           Action(Mouse 1) `Exec $[f_browser]`, Action(Mouse 3) `Exec $[f_mail]`)
+*FvwmDock: (5x16+37+2, Swallow "FvwmPager" "FvwmPager 0 0")
+*FvwmDock: (5x18+43+1, ActionOnPress, Swallow "TimeAndDateNormal" `FvwmScript $[f_script]/TimeAndDateNormal`)
