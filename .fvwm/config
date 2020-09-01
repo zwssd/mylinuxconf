@@ -29,10 +29,10 @@ SetEnv f_office     wps
 SetEnv f_music      netease-cloud-music
 SetEnv f_IDE        idea
 SetEnv f_mail       thunderbird
-SetEnv f_deco       $[FVWM_USERDIR]/image/clearlook
+SetEnv f_deco       $[FVWM_USERDIR]/image/deco
 SetEnv f_script     $[FVWM_USERDIR]/scripts
 SetEnv f_wallpaper  $[FVWM_USERDIR]/image/wallpapers
-ImagePath           $[FVWM_USERDIR]/image/Xenlism-Wildfire:+
+#ImagePath           $[FVWM_USERDIR]/image/Xenlism-Wildfire:+
 #ImagePath           $[FVWM_USERDIR]/image/Faenza:+
 #ImagePath           /usr/share/icons/hicolor/scalable:+
 # FreeBSD 路径与Linux不同，下列一行适用于FreeBSD
@@ -88,7 +88,7 @@ AddToFunc StartFunction
 + I Module  FvwmAuto 800 Raise Nop
 + I Module  FvwmButtons FvwmDock
 + I Module  FvwmAnimate
-+ I Exec    fvwm-root --retain-pixmap $[f_wallpaper]/.current
++ I Exec    fvwm-root --retain-pixmap $[f_wallpaper]/22.png
 + I Exec    conky -c $[f_script]/conky.conf
 + I Exec    fcitx
 
@@ -168,8 +168,8 @@ Style * MinOverlapPlacement
 Style "fbrun" GrabFocus, PositionPlacement Center
 Style * GrabFocus
 #Style * FocusFollowsMouse
-#Style * ClickToFocus
-Style * sloppyFocus
+Style * ClickToFocus # 点击鼠标聚焦窗口
+#Style * sloppyFocus
 Style * ResizeOpaque
 #Style * RoundedCornersTop, SlightlyRoundedCorners
 #Style * RoundedCornersBottom, SlightlyRoundedCorners
@@ -204,28 +204,28 @@ AddToDecor WindowDecoration
 + ButtonStyle 1 MiniIcon
 
 + ButtonStyle 8 \
-  ActiveUp     (Pixmap $[f_deco]/window-active-arrows.png) \
-  ActiveDown   (Pixmap $[f_deco]/window-active-arrows-down.png) \
-  InactiveUp   (Pixmap $[f_deco]/window-inactive-arrows.png) \
-  InactiveDown (Pixmap $[f_deco]/window-inactive-arrows-down.png)
+  ActiveUp     (Pixmap $[f_deco]/options-activeup.xpm) \
+  ActiveDown   (Pixmap $[f_deco]/options-activedown.xpm) \
+  InactiveUp   (Pixmap $[f_deco]/inactive.xpm) \
+  InactiveDown (Pixmap $[f_deco]/inactive.xpm)
 
 + ButtonStyle 2 \
-  ActiveUp     (Pixmap $[f_deco]/window-active-close.png) \
-  ActiveDown   (Pixmap $[f_deco]/window-active-close-down.png) \
-  InactiveUp   (Pixmap $[f_deco]/window-inactive-close.png) \
-  InactiveDown (Pixmap $[f_deco]/window-inactive-close-down.png)
+  ActiveUp     (Pixmap $[f_deco]/close-activeup.xpm) \
+  ActiveDown   (Pixmap $[f_deco]/close-activedown.xpm) \
+  InactiveUp   (Pixmap $[f_deco]/inactive.xpm) \
+  InactiveDown (Pixmap $[f_deco]/inactive.xpm)
 
 + ButtonStyle 4 \
-  ActiveUp     (Pixmap $[f_deco]/window-active-maximize.png) \
-  ActiveDown   (Pixmap $[f_deco]/window-active-maximize-down.png) \
-  InactiveUp   (Pixmap $[f_deco]/window-inactive-maximize.png) \
-  InactiveDown (Pixmap $[f_deco]/window-inactive-maximize-down.png)
+  ActiveUp     (Pixmap $[f_deco]/maximize-activeup.xpm) \
+  ActiveDown   (Pixmap $[f_deco]/maximize-activedown.xpm) \
+  InactiveUp   (Pixmap $[f_deco]/inactive.xpm) \
+  InactiveDown (Pixmap $[f_deco]/inactive.xpm)
 
 + ButtonStyle 6 \
-  ActiveUp     (Pixmap $[f_deco]/window-active-iconify.png) \
-  ActiveDown   (Pixmap $[f_deco]/window-active-iconify-down.png) \
-  InactiveUp   (Pixmap $[f_deco]/window-inactive-iconify.png) \
-  InactiveDown (Pixmap $[f_deco]/window-inactive-iconify-down.png)
+  ActiveUp     (Pixmap $[f_deco]/iconify-activeup.xpm) \
+  ActiveDown   (Pixmap $[f_deco]/iconify-activedown.xpm) \
+  InactiveUp   (Pixmap $[f_deco]/inactive.xpm) \
+  InactiveDown (Pixmap $[f_deco]/inactive.xpm)
 
 + ButtonStyle All -- UseTitleStyle
 + ButtonStyle All -- flat
@@ -330,7 +330,8 @@ Style Uget-gtk*    StartsOnPage 1 1
 DeskTopSize 2x2
 IgnoreModifiers L25
 HideGeometryWindow Always
-EwmhBaseStruts 0 0 0 0
+# 48 是窗口最大化后下边留下的距离
+EwmhBaseStruts 0 0 0 48
 Style * SnapAttraction 5 SameType
 EdgeScroll 0 0
 EdgeResistance 2
