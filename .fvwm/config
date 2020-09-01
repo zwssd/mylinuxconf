@@ -267,7 +267,7 @@ Style netease-cloud-music !Title,MiniIcon apps/netease-cloud-music.svg:$[i_size]
 Style Mintinstall.py MiniIcon apps/synaptic.svg:$[i_size], Icon apps/synaptic.svg:$[i_size]
 Style synaptic MiniIcon apps/synaptic.svg:$[i_size], Icon apps/synaptic.svg:$[i_size]
 Style Uget-gtk MiniIcon apps/uget-icon.svg:$[i_size], Icon apps/uget-icon.svg:$[i_size]
-Style Firefox MiniIcon apps/firefox.svg:$[i_size], Icon apps/firefox.svg:$[i_size]
+Style firefox MiniIcon apps/firefox.svg:$[i_size], Icon apps/firefox.svg:$[i_size]
 Style Opera MiniIcon apps/opera.svg:$[i_size], Icon apps/opera.svg:$[i_size]
 Style Thunderbird MiniIcon apps/thunderbird.svg:$[i_size], Icon apps/thunderbird.svg:$[i_size]
 Style Chromium-browser !Title,MiniIcon apps/chrome.svg:$[i_size], Icon apps/chrome.svg:$[i_size]
@@ -310,7 +310,7 @@ Style Nm-connection-editor MiniIcon apps/wifi.svg:$[i_size], Icon apps/wifi.svg:
 #Style * PositionPlacement Center
 Style * RecaptureHonorsStartsOnPage, CaptureHonorsStartsOnPage
 
-Style Firefox      StartsOnPage 1 0
+Style firefox      StartsOnPage 1 0
 Style Chromium*    StartsOnPage 1 0
 Style Opera        StartsOnPage 1 0
 Style Thunderbird  StartsOnPage 1 0
@@ -377,7 +377,8 @@ AddToFunc MoveFunc
 DestroyFunc TitleMaximize
 AddToFunc TitleMaximize
 + I Raise
-+ C Maximize
+#+ C Maximize
++ D Maximize
 + M Move
 
 # 关闭显示屏函数
@@ -817,9 +818,13 @@ DestroyModuleConfig FvwmDock: *
            Action(Mouse 1) `Exec code`, Action(Mouse 3) `Exec gvim`)
 *FvwmDock: (5x20+21+0, ActionOnPress, Icon apps/mplayer.svg:$[m_size], ActiveIcon apps/mplayer.svg:$[m_size]*1.75, \
            Action(Mouse 1) `Exec smplayer`, Action(Mouse 3) `Exec vlc`)
-*FvwmDock: (5x20+26+0, ActionOnPress, Icon apps/$[f_office].svg:$[i_size], ActiveIcon apps/$[f_office].svg:$[i_size]*1.75, \
-           Action(Mouse 1) `Exec $[f_office]`, Action(Mouse 3) `Exec $[f_editor]`)
-*FvwmDock: (5x20+31+0, ActionOnPress, Icon apps/$[f_IDE].svg:$[i_size], ActiveIcon apps/$[f_IDE].svg:$[i_size]*1.75, \
-           Action(Mouse 1) `Exec $[f_IDE]`, Action(Mouse 3) `Exec liteide`)
+*FvwmDock: (5x20+26+0, ActionOnPress, Icon apps/database.svg:$[m_size], ActiveIcon apps/database.svg:$[m_size]*1.75, \
+           Action(Mouse 1) `Exec dbeaver`, Action(Mouse 3) `Exec mysql-workbench`)
+*FvwmDock: (5x20+31+0, ActionOnPress, Icon apps/virtual-box.svg:$[m_size], ActiveIcon apps/virtual-box.svg:$[m_size]*1.75, \
+           Action(Mouse 1) `Exec virtualbox`, Action(Mouse 3) `Exec virtualbox`)
+*FvwmDock: (5x20+36+0, ActionOnPress, Icon apps/filezilla.svg:$[m_size], ActiveIcon apps/filezilla.svg:$[m_size]*1.75, \
+           Action(Mouse 1) `Exec filezilla`, Action(Mouse 3) `Exec filezilla`)
+*FvwmDock: (5x20+41+0, ActionOnPress, Icon apps/qbittorrent.svg:$[m_size], ActiveIcon apps/qbittorrent.svg:$[m_size]*1.75, \
+           Action(Mouse 1) `Exec qbittorrent`, Action(Mouse 3) `Exec qbittorrent`)
 *FvwmDock: (5x20+46+1, Swallow "FvwmPager" "FvwmPager 0 0")
 *FvwmDock: (5x20+52+0, ActionOnPress, Swallow "TimeAndDateNormal" `FvwmScript $[f_script]/TimeAndDateNormal`)
