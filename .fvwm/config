@@ -3,7 +3,7 @@
 #  / _|_   ____      ___ __ ___  
 # | |_\ \ / /\ \ /\ / / '_ ` _ \ 
 # |  _|\ V /  \ V  V /| | | | | |
-# |_|   \_/    \_/\_/ |_| |_| |_| 2.6.5
+# |_|   \_/    \_/\_/ |_| |_| |_| 2.6.9
 #                               
 #                                                               
 # system monitor                                                
@@ -34,9 +34,9 @@ SetEnv f_script     $[FVWM_USERDIR]/scripts
 SetEnv f_wallpaper  $[FVWM_USERDIR]/image/wallpapers
 ImagePath           $[FVWM_USERDIR]/image/Xenlism-Wildfire:+
 #ImagePath           $[FVWM_USERDIR]/image/Faenza:+
-ImagePath           /usr/share/icons/hicolor/scalable:+
+#ImagePath           /usr/share/icons/hicolor/scalable:+
 # FreeBSD 路径与Linux不同，下列一行适用于FreeBSD
-ImagePath           /usr/local/share/icons/hicolor/scalable:+
+#ImagePath           /usr/local/share/icons/hicolor/scalable:+
 ImagePath           $[FVWM_USERDIR]/image:+
 
 # 使用svg图片格式的引用参考如下：
@@ -57,8 +57,8 @@ SetEnv m_size       32x32
 
 # 停靠坞尺寸及位置设定
 # 停靠坞位置计算式：f_dock_x = (ScreenWidth - DockWidth) / 2
-SetEnv f_dock_x     490
-SetEnv f_dock_size  620x70
+SetEnv f_dock_x     500
+SetEnv f_dock_size  900x45
 
 # 注销对话框位置计算式：f_quit_x = (ScreenWidth - QuitWidth(280)) / 2
 SetEnv f_quit_x     660
@@ -794,29 +794,29 @@ DestroyModuleConfig FvwmPager
 
 Style FvwmDock !Title, StaysOnBottom, Sticky, WindowListSkip, CirculateSkipIcon, CirculateSkip, \
                HandleWidth 0, BorderWidth 0, NeverFocus, Layer 0
- 
-
 
 DestroyModuleConfig FvwmDock: *
-*FvwmDock: BoxSize fixed
+#*FvwmDock: BoxSize fixed
 *FvwmDock: Colorset 9
-*FvwmDock: Rows 20
-*FvwmDock: Columns 49
 *FvwmDock: Geometry $[f_dock_size]+$[f_dock_x]-3
 *FvwmDock: Padding 0 0
 *FvwmDock: Frame 0
+*FvwmDock: Rows 10 
+*FvwmDock: Columns 10
 
-*FvwmDock: (5x20+1+0, ActionOnPress, Icon places/user-home.svg:$[i_size], ActiveIcon places/user-home.svg:$[i_size]*0.75, \
-           Action(Mouse 1) `Exec $[f_file]`, Action(Mouse 3) `Exec $[f_file] -d=/media`)
-*FvwmDock: (5x20+7+0, ActionOnPress, Icon apps/xterm.svg:$[i_size], ActiveIcon apps/xterm.svg:$[i_size]*0.75, \
-           Action(Mouse 1) `Exec $[f_xterm]`, Action(Mouse 3) `Exec Eterm --borderless --buttonbar 0 --trans --shade 50 --scrollbar false`)
-*FvwmDock: (5x20+13+0, ActionOnPress, Icon apps/vlc.svg:$[i_size], ActiveIcon apps/vlc.svg:$[i_size]*0.75, \
-           Action(Mouse 1) `Exec vlc`, Action(Mouse 3) `Exec $[f_music]`)
-*FvwmDock: (5x20+19+0, ActionOnPress, Icon apps/$[f_office].svg:$[i_size], ActiveIcon apps/$[f_office].svg:$[i_size]*0.75, \
+*FvwmDock: (5x20+1+0, ActionOnPress,Icon apps/thunar.svg:$[m_size], ActiveIcon apps/thunar.svg:$[m_size]*1.75, \
+           Action(Mouse 1) `Exec $[f_file]`, Action(Mouse 3) `Exec $[f_file] -d=~/mycode`)
+*FvwmDock: (5x20+6+0, ActionOnPress,Icon apps/firefox.svg:$[m_size], ActiveIcon apps/firefox.svg:$[m_size]*1.75, \
+           Action(Mouse 1) `Exec firefox`, Action(Mouse 3) `Exec chromium`)
+*FvwmDock: (5x20+11+0, ActionOnPress, Icon apps/xterm.svg:$[m_size], ActiveIcon apps/xterm.svg:$[m_size]*1.75, \
+           Action(Mouse 1) `Exec $[f_xterm]`, Action(Mouse 3) `Exec xterm`)
+*FvwmDock: (5x20+16+0, ActionOnPress, Icon apps/code.svg:$[m_size], ActiveIcon apps/code.svg:$[m_size]*1.75, \
+           Action(Mouse 1) `Exec code`, Action(Mouse 3) `Exec gvim`)
+*FvwmDock: (5x20+21+0, ActionOnPress, Icon apps/mplayer.svg:$[m_size], ActiveIcon apps/mplayer.svg:$[m_size]*1.75, \
+           Action(Mouse 1) `Exec smplayer`, Action(Mouse 3) `Exec vlc`)
+*FvwmDock: (5x20+26+0, ActionOnPress, Icon apps/$[f_office].svg:$[i_size], ActiveIcon apps/$[f_office].svg:$[i_size]*1.75, \
            Action(Mouse 1) `Exec $[f_office]`, Action(Mouse 3) `Exec $[f_editor]`)
-*FvwmDock: (5x20+25+0, ActionOnPress, Icon apps/$[f_IDE].svg:$[i_size], ActiveIcon apps/$[f_IDE].svg:$[i_size]*0.75, \
+*FvwmDock: (5x20+31+0, ActionOnPress, Icon apps/$[f_IDE].svg:$[i_size], ActiveIcon apps/$[f_IDE].svg:$[i_size]*1.75, \
            Action(Mouse 1) `Exec $[f_IDE]`, Action(Mouse 3) `Exec liteide`)
-*FvwmDock: (5x20+31+0, ActionOnPress, Icon apps/$[f_browser].svg:$[i_size], ActiveIcon apps/$[f_browser].svg:$[i_size]*0.75, \
-           Action(Mouse 1) `Exec $[f_browser]`, Action(Mouse 3) `Exec $[f_mail]`)
-*FvwmDock: (5x16+37+2, Swallow "FvwmPager" "FvwmPager 0 0")
-*FvwmDock: (5x18+43+1, ActionOnPress, Swallow "TimeAndDateNormal" `FvwmScript $[f_script]/TimeAndDateNormal`)
+*FvwmDock: (5x20+46+1, Swallow "FvwmPager" "FvwmPager 0 0")
+*FvwmDock: (5x20+52+0, ActionOnPress, Swallow "TimeAndDateNormal" `FvwmScript $[f_script]/TimeAndDateNormal`)
