@@ -1,0 +1,2 @@
+conky 新版本脚本转换
+sudo lua /usr/share/doc/conky-1.11.5_pre/convert.lua ~/.fvwm/scripts/conky.conf
