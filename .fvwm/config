@@ -239,11 +239,12 @@ AddToDecor WindowDecoration
 Style ** MiniIcon apps/default.svg:$[i_size], Icon apps/default.svg:$[i_size]
 Style XTerm MiniIcon apps/xterm.svg:$[i_size], Icon apps/xterm.svg:$[i_size]
 Style *term* MiniIcon apps/xterm.svg:$[i_size], Icon apps/xterm.svg:$[i_size]
-Style vlc MiniIcon apps/vlc.svg:$[i_size], Icon apps/vlc.svg:$[i_size]
+Style vlc MiniIcon apps/mplayer.svg:$[i_size], Icon apps/mplayer.svg:$[i_size]
+Style smplayer MiniIcon apps/vlc.svg:$[i_size], Icon apps/vlc.svg:$[i_size]
 Style Conky !Title, !Borders, !Iconifiable, WindowListSkip, FixedPosition, FixedSize, Sticky, Layer 0
 
 Style ROX-Filer MiniIcon apps/rox.svg:$[i_size], Icon apps/rox.svg:$[i_size]
-Style Rox MiniIcon apps/rox.svg:$[i_size], Icon apps/rox.svg:$[i_size]
+Style Thunar MiniIcon apps/thunar.svg:$[i_size], Icon apps/thunar.svg:$[i_size]
 
 # Development tools
 Style QtCreator MiniIcon apps/qtcreator.svg:$[i_size], Icon apps/qtcreator.svg:$[i_size]
@@ -258,7 +259,7 @@ Style gvim MiniIcon apps/gvim.svg:$[i_size], Icon apps/gvim.svg:$[i_size]
 Style Gimp MiniIcon apps/gimp.svg:$[i_size], Icon apps/gimp.svg:$[i_size]
 Style inkscape MiniIcon apps/inkscape.svg:$[i_size], Icon apps/inkscape.svg:$[i_size]
 Style *lender MiniIcon apps/blender.svg:$[i_size], Icon apps/blender.svg:$[i_size]
-Style VirtualBox MiniIcon apps/virtualbox.svg:$[i_size], Icon apps/virtualbox.svg:$[i_size]
+Style VirtualBox MiniIcon apps/virtual-box.svg:$[i_size], Icon apps/virtual-box.svg:$[i_size]
 Style Remarkable MiniIcon apps/remarkable.svg:$[i_size], Icon apps/remarkable.svg:$[i_size]
 
 # Internet tools
@@ -271,6 +272,7 @@ Style Opera MiniIcon apps/opera.svg:$[i_size], Icon apps/opera.svg:$[i_size]
 Style Thunderbird MiniIcon apps/thunderbird.svg:$[i_size], Icon apps/thunderbird.svg:$[i_size]
 Style Chromium-browser !Title,MiniIcon apps/chrome.svg:$[i_size], Icon apps/chrome.svg:$[i_size]
 Style Bcloud-gui MiniIcon apps/bcloud.svg:$[i_size], Icon apps/bcloud.svg:$[i_size]
+Style qbittorrent MiniIcon apps/qbittorrent.svg:$[i_size], Icon apps/qbittorrent.svg:$[i_size]
 
 # Office
 Style libreoffice MiniIcon apps/libreoffice.svg:$[i_size], Icon apps/libreoffice.svg:$[i_size]
