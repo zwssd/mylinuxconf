@@ -14,17 +14,17 @@
 #
 # High color version
 #
-# June 6,2017                                                   
-# Yale Wei, longanw@163.com  
+# June 6,2020                                                   
+# david , zwssd1980@163.com  
 # locale: zh_CN.UTF-8                                           
-# OS: Linux Mint
+# OS: Arch Linux
 #----------------------------------------------------------------
 
 # 环境变量
 SetEnv f_file       thunar
 SetEnv f_browser    firefox
 SetEnv f_editor     emacs
-SetEnv f_xterm      xfce4-terminal
+SetEnv f_xterm      xterm
 SetEnv f_office     wps
 SetEnv f_music      netease-cloud-music
 SetEnv f_IDE        idea
@@ -815,7 +815,7 @@ DestroyModuleConfig FvwmDock: *
 *FvwmDock: (5x20+6+0, ActionOnPress,Icon apps/firefox.svg:$[m_size], ActiveIcon apps/firefox.svg:$[m_size]*1.75, \
            Action(Mouse 1) `Exec firefox`, Action(Mouse 3) `Exec chromium`)
 *FvwmDock: (5x20+11+0, ActionOnPress, Icon apps/xterm.svg:$[m_size], ActiveIcon apps/xterm.svg:$[m_size]*1.75, \
-           Action(Mouse 1) `Exec $[f_xterm]`, Action(Mouse 3) `Exec xterm`)
+           Action(Mouse 1) `Exec $[f_xterm]`, Action(Mouse 3) `Exec xfce4-terminal`)
 *FvwmDock: (5x20+16+0, ActionOnPress, Icon apps/code.svg:$[m_size], ActiveIcon apps/code.svg:$[m_size]*1.75, \
            Action(Mouse 1) `Exec code`, Action(Mouse 3) `Exec gvim`)
 *FvwmDock: (5x20+21+0, ActionOnPress, Icon apps/mplayer.svg:$[m_size], ActiveIcon apps/mplayer.svg:$[m_size]*1.75, \

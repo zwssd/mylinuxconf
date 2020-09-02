@@ -29,6 +29,14 @@ XTerm*locale: zh_CN.UTF-8
 xterm*utf8: true
 xterm*utf8Title: true
 
+XTerm*scrollBar: true
+XTerm*rightScrollBar: true
+XTerm*jumpScroll: true
+XTerm*scrollKey: true
+XTerm*scrollMouse: true
+XTerm*scrollTryOutput: true
+XTerm*SaveLines: 1000
+
 !mouse selecting to copy, ctrl-v to paste
 !Ctrl p to print screen content to file
 XTerm*VT100.Translations: #override \
