@@ -582,8 +582,8 @@ Key Up      A MS    Scroll +0  -25
 Key Down    A MS    Scroll +0  +25
 
 # 音量调节软件，以下控制为FreeBSD下的mixer命令，Linux Mint中为amixer，需修改
-Key Up      A MC   Exec mixer -f /dev/mixer vol +5
-Key Down    A MC   Exec mixer -f /dev/mixer vol -5
+Key Up      A MC   Exec amixer -c 1 set Master 5%+ unmute
+Key Down    A MC   Exec amixer -c 1 set Master 5%- unmute
 
 #----------------------------------------------------------------
 # 鼠标绑定
@@ -792,9 +792,9 @@ DestroyModuleConfig FvwmPager
 *FvwmPager: Columns 1
 *FvwmPager: NoSeparators
 *FvwmPager: ShapeLabels
-*FvwmPager: Colorset * 8
-*FvwmPager: HilightColorset * 9
-*FvwmPager: BalloonColorset * 3
+*FvwmPager: Colorset * 4
+*FvwmPager: HilightColorset * 3
+*FvwmPager: BalloonColorset * 4
 *FvwmPager: WindowColorsets 9 $[cs-panel-winactive]
 
 Style FvwmDock !Title, StaysOnBottom, Sticky, WindowListSkip, CirculateSkipIcon, CirculateSkip, \
@@ -827,5 +827,5 @@ DestroyModuleConfig FvwmDock: *
            Action(Mouse 1) `Exec filezilla`, Action(Mouse 3) `Exec filezilla`)
 *FvwmDock: (5x20+41+0, ActionOnPress, Icon apps/qbittorrent.svg:$[m_size], ActiveIcon apps/qbittorrent.svg:$[m_size]*1.75, \
            Action(Mouse 1) `Exec qbittorrent`, Action(Mouse 3) `Exec qbittorrent`)
-*FvwmDock: (5x20+46+1, Swallow "FvwmPager" "FvwmPager 0 0")
-*FvwmDock: (5x20+52+0, ActionOnPress, Swallow "TimeAndDateNormal" `FvwmScript $[f_script]/TimeAndDateNormal`)
+*FvwmDock: (8x24+47+1, Swallow "FvwmPager" "FvwmPager 0 0")
+*FvwmDock: (5x20+58+0, ActionOnPress, Swallow "TimeAndDateNormal" `FvwmScript $[f_script]/TimeAndDateNormal`)
