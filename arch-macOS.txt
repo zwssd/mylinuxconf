@@ -1,0 +1,183 @@
+Arch Linux桌面环境美化（Xfce4）macOS like
+BigTaiYang大太阳
+0.325
+2019.12.27 18:24:13
+字数 1,351阅读 7,014
+
+本美化教程基于ArchLinux编写而成，大多数其他Linux发行版也同样适用，只是在安装软件时方式不同而已。
+准备
+
+首先要有一个安装好的Xfce4桌面环境
+
+
+下载安装主题
+
+https://www.pling.com/p/1326265/
+
+网盘分享：
+
+链接: https://pan.baidu.com/s/114idZOEp-W7VZDabRNhCEA 提取码: 8ygm
+
+两个文件：
+
+McOS-CTLina-XFCE.tar.xz（浅色）
+
+Mc-OS-CTLina-XFCE-Dark.tar.xz（深色）
+
+解压主题到以下目录(没有的话可创建一个)
+
+/usr/share/themes/（系统范围有效，需要管理员权限）
+
+~/.themes/（用户范围有效，别的用户不能用）
+设置主题
+
+打开Settings Manger（设置管理器）界面
+
+
+Appearance设置
+
+打开Appearance（外观）
+
+1.切换到刚才下载的主题
+
+
+Window Manager设置
+
+打开Window Manager（窗口管理器）
+
+1. 切换Theme（主题）到刚才下载的主题
+
+2. 在Button Layout（按钮布局）区域，拖动窗口按钮到左边（关闭，最小化，最大化）
+
+
+Window Manager Tweak 设置
+
+打开Window Manager Tweak（窗口管理器微调）
+
+1. 切换到Compositor（合成器）界面
+
+2. 取消选中Show shadows under dock windows（在dock窗口下显示阴影）
+
+3. 设置一些透明度
+
+
+设置Panel（面板）
+
+1. 右键Panel（面板），找到Panel Perferences（面板首选项）
+
+2. 取消选中Lock Panel（锁定面板）
+
+3. 拖动面板到屏幕顶端
+
+
+设置Dock停靠栏
+安装
+
+使用命令安装Plank（或者从应用中心安装）：
+
+    sudo pacman -S plank
+
+安装后可在应用程序里面启动（或者使用命令plank启动）
+开机启动
+
+在设置管理器里面找到Session and Startup（会话和启动），在Application Autostart（应用程序自启动）里面点击Add（添加）按钮，新增Plank登录自启动。
+
+
+精细化设置
+
+经过上面的设置步骤，基本的主题美化就结束了，这时已经可以得到一个看起来不错的桌面环境了。接下来我们继续精细化设置。
+图标主题
+
+安装一个macOS样式的图标主题
+
+mcmojave-circle-icon-theme-git（AUR）
+
+    yay -S mcmojave-circle-icon-theme-git
+
+打开 设置管理器》外观，切换到Icon（图标）选择安装的图标主题
+
+系统各种常用图标就会变成我们设置的了（包括dock里面的）
+
+
+全局菜单
+
+因为我们使用到了dock，所以Panel面板中不在需要窗口列表，用全局菜单代替。
+
+安装vala-panel-appmenu-xfce-git（AUR）插件
+
+    yay -S vala-panel-appmenu-xfce-git
+
+面板右键首选项，切换到Items（项目）
+
+点击加号按钮弹出组件选择对话框，选择AppMenu（全局菜单）组件点击Add（添加）。在这里还可以添加其他的面板组件。
+
+
+点击上下箭头可以调整组件顺序，把全局菜单调整到最上面（左侧）。或者直接按照图片设置。
+Gtk应用菜单支持
+
+    yay -S appmenu-gtk-module
+
+Qt应用菜单支持
+
+    yay appmenu-qt4（AUR）
+
+菜单注册
+
+经过上面设置，注销重新登录后，我们就可以在顶部面板显示应用程序的菜单栏了。但这时可能在应用程序中依然有一个菜单栏（重复显示了），通常我想只显示顶部面板的菜单栏，隐藏每个应用程序中的菜单栏。
+使用vala-appmenu官方提供的方法：
+
+    xfconf-query -c xsettings -p /Gtk/ShellShowsMenubar -n -t bool -s true
+
+    xfconf-query -c xsettings -p /Gtk/ShellShowsAppmenu -n -t bool -s true
+
+如上面方法无效可安装下面软件包：
+
+    yay vala-panel-appmenu-registrar-git（AUR）
+
+注销重新登录后应用程序里面的菜单应该就不见了。
+特殊软件
+
+对于Firefox和Thunderbird这两个应用由于不是使用标准gtk或qt开发的菜单，所以全局菜单插件不支持这两个应用的官方版本，但是AUR有重新编译了的这两个应用，以支持appmenu全局的菜单。
+
+    firefox-appmenu（AUR）
+
+    thunderbird-appmenu（AUR）
+
+    firefox-appmenu-bin（AUR）
+
+    thunderbird-appmenu-bin（AUR）
+
+AUR作者更新很及时，但是安装稍微麻烦，为了更好的体验也就忍了吧。不过直接使用官方包除了不能显示菜单以外，其实也不赖。
+
+如果安装以上软件菜单不工作，可能还需要以下软件包
+
+    sudo pacman -S libdbusmenu-qt5 libdbusmenu-glib libdbusmenu-gtk2 libdbusmenu-gtk3
+
+Spotlight（Albert）
+
+Xfce默认有一个Application Finder，可以实现搜索功能，快捷键Alt+F3。但我更喜欢Albert，一个类似Spotlight的搜索工具
+安装Albert：
+
+    sudo pacman -S albert
+
+从程序菜单运行，或者命令运行：albert
+
+首次运行，默认打开配置界面，可以设置开机启动、快捷键、主题样式等。快捷键我设置成Ctrl+Alt+Space，这样当按下这个组合键时就能启动搜索了，和Spotlight非常像。
+
+
+Extensions可以设置搜索哪些地方
+
+
+结束
+
+仓库和AUR里面还有好多其他主题，可以自行搜索。
+
+ArchLinux可以使用pamac图形化软件管理器
+
+    sudo pacman -S pamac
+
+或者使用命令行yay
+
+    sudo pacman -S yay
+
+然后使用 yay pkgname来查找安装软件包
